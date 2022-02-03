@@ -18,7 +18,9 @@ module.exports = async (client) => {
   });
   client.on("ready", async () => {
     await client.guilds.cache.forEach((g) => {
-      g.commands.set(arrayOfSlashCommands).catch((e) => {return;});
+      g.commands.set(arrayOfSlashCommands).catch((e) => {
+        return;
+      });
     });
     await client.application.commands.set([]);
   });
@@ -51,6 +53,25 @@ module.exports = async (client) => {
       await interaction.deferReply({ ephemeral: false });
       const command = client.slashCommands.get(interaction.commandName);
       if (command) command.run(client, interaction);
+    }
+  });
+
+  //Command Handler
+  const commandfiles = await globPromise(`${process.cwd()}/commands/**/*.js`);
+  commandfiles.map((value) => {
+    const file = require(value);
+    const splitted = value.split("/");
+    const directory = splitted[splitted.length - 2];
+
+    if (file.name) {
+      const properties = {
+        directory,
+        ...file,
+      };
+      client.commands.set(file.name, properties);
+    }
+    if (file.aliases && Array.isArray(file.aliases)) {
+      file.aliases.forEach((alias) => client.aliases.set(alias, file.name));
     }
   });
 

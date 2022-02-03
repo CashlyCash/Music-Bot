@@ -2,12 +2,6 @@ const client = require("../index.js");
 const { Webhook } = require("discord-webhook.js");
 
 client.on("messageCreate", async (message) => {
-  if (message.content.includes("Bablu_Bhai.gif")) {
-    message.delete();
-  }
-});
-
-client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
   let msg = message.content;
   let emojis = msg.match(/(?<=:)([^:\s]+)(?=:)/g);
@@ -33,7 +27,7 @@ client.on("messageCreate", async (message) => {
   hook.send(msg);
 });
 
-const hooksend = async (msg, username, avatar) => {
+const hooksend = async (msg, username, avatar, message) => {
   let webhook = await message.channel.fetchWebhooks();
   webhook = webhook.find((x) => x.name === "NQN");
 
@@ -48,21 +42,46 @@ const hooksend = async (msg, username, avatar) => {
 };
 
 client.on("messageCreate", async (message) => {
-	if (message.author.id != "908554250945183744") return
+  if (message.content.includes("Bablu_Bhai.gif")) {
+    message.delete();
+  }
+  if (message.author.id != "908554250945183744") return;
   if (message.content == "%spank") {
     hooksend(
       "<a:panties:937923765227114506>",
       "Get spanked!",
-      "https://cdn.discordapp.com/emojis/937923765227114506.gif"
+      "https://cdn.discordapp.com/emojis/937923765227114506.gif",
+      message
     );
     message.delete();
   }
-	if (message.content == "%vibe") {
+  if (message.content == "%vibe") {
     hooksend(
       "<a:DJ:937922981823393813>",
       "Vibing to music",
-      "https://cdn.discordapp.com/emojis/937922981823393813.gif"
+      "https://cdn.discordapp.com/emojis/937922981823393813.gif",
+      message
     );
     message.delete();
+  }
+});
+
+client.on("messageCreate", async (message) => {
+  if (message.author.bot) return;
+  const prefix = 'ct!';
+  var args = message.content.slice(prefix.length).trim().split(/ +/g);
+  command = args.shift().toLowerCase();
+  cmd =
+    client.commands.get(command) ||
+    client.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(command));
+  if (message.content.indexOf(prefix) !== 0) return;
+  if (cmd) {
+    if (!message.member.permissions.has(cmd.UserPerms || [])) {
+      return message.channel.send(
+        `You need \`${cmd.UserPerms || []}\` Permissions`
+      );
+    } else {
+      cmd.run(client, message, args, prefix, Discord);
+    }
   }
 });
