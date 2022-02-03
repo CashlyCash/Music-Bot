@@ -12,12 +12,26 @@ client.on("interactionCreate", (interaction) => {
       const queue = player.getQueue(interaction.guildId);
       const btn = i.customId.split(":")[1];
       if (!queue?.playing) return i.reply({content: "There is no music playing right now", ephemeral: true});
+      if (!interaction.member.voice.channelId) return i.reply({content: "Join a VC first!", ephemeral: true});
+      if (interaction.guild.me.voice.channelId) {
+        if (
+          interaction.guild.me.voice.channelId !==
+          interaction.member.voice.channelId
+        ) {
+          return interaction.reply({
+            content:
+              "Sorry but you need to be in the same VC in which I am!",
+              ephemeral: true
+          });
+        }
+      }
       if (btn == "pause") {
         queue.setPaused(true);
       } else if (btn == "resume") {
         queue.setPaused(false);
       } else if (btn == "lyrics") {
-        i.reply(sendLyrics(queue.current.title, i));
+        i.deferReply({ephemeral: true})
+        i.followUp(sendLyrics(queue.current.title, i));
       } else if (btn == "next") {
         queue.skip();
       } else if (btn == "back") {

@@ -1,11 +1,9 @@
 const client = require("../index.js");
+const { Webhook } = require("discord-webhook.js")
 
 client.on('messageCreate', async (message) => {
   if (message.content.includes('Bablu_Bhai.gif')){
     message.delete()
-  }
-  if (message.content.startsWith('bablu ')){
-    message.reply('Hi! bablu has now switched to slash commands, If the commands are not showing in your server then please invite the bot using this link - \n\nhttps://discord.com/oauth2/authorize?client_id=891589975496335390&scope=bot%20applications.commands&permissions=1099511627775')
   }
 })
 

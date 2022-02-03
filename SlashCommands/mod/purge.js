@@ -4,8 +4,8 @@ const {
   MessageButton
 } = require("discord.js");
 module.exports = {
-  name: "invite",
-  description: "Get an invite",
+  name: "purge",
+  description: "Purge ",
   run: async (client, interaction) => {
     const emb = new MessageEmbed()
       .setTitle("Invite the discord bot")

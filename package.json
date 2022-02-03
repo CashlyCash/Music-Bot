@@ -19,10 +19,12 @@
     "cheerio": "^1.0.0-rc.10",
     "discord-player": "^5.2.1",
     "discord-speech-recognition": "^2.2.0",
+    "discord-webhook.js": "^1.2.4",
     "discord.js": "^13.3.1",
     "glob": "^7.2.0",
     "node-fetch": "^3.2.0",
-    "undici": "^4.12.2"
+    "undici": "^4.12.2",
+    "ytdl-core": "^4.10.1"
   },
   "devDependencies": {
     "node": "^16.6.1"

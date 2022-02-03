@@ -27,4 +27,4 @@ require('./handler')(client);
 
 module.exports = client
 
-client.login("OTEyNTM4NDAyODg3NDQ2NTI4.YZxZnQ.G_Cqcg4cY-eZFZbc0_ZV-xpMATc")
+client.login(process.env.token)
