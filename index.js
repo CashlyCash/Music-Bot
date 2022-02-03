@@ -1,4 +1,5 @@
 const {Client,Intents, Collection} = require("discord.js");
+const token = require('./token.json').token
 
 const client = new Client({
 	intents: [
@@ -27,4 +28,4 @@ require('./handler')(client);
 
 module.exports = client
 
-client.login(process.env.token)
+client.login(token)
