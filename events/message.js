@@ -76,6 +76,6 @@ client.on("messageCreate", async (message) => {
     client.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(command));
   if (message.content.indexOf(prefix) !== 0) return;
   if (cmd) {
-    cmd.run(client, message, args, prefix, Discord);
+    cmd.run(client, message, args, prefix);
   }
 });
