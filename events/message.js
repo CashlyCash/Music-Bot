@@ -76,12 +76,6 @@ client.on("messageCreate", async (message) => {
     client.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(command));
   if (message.content.indexOf(prefix) !== 0) return;
   if (cmd) {
-    if (!message.member.permissions.has(cmd.UserPerms || [])) {
-      return message.channel.send(
-        `You need \`${cmd.UserPerms || []}\` Permissions`
-      );
-    } else {
-      cmd.run(client, message, args, prefix, Discord);
-    }
+    cmd.run(client, message, args, prefix, Discord);
   }
 });

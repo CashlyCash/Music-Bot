@@ -11,11 +11,7 @@ const client = new Client({
 });
 
 process.on('unhandledRejection', error => {
-	if(client.channels.cache.get("938037881098874880")){
-		client.channels.cache.get("938037881098874880").send(error)
-	} else {
-		console.log(error)
-	}
+	console.log(error)
 });
 
 
