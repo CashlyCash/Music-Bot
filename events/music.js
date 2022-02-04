@@ -30,8 +30,7 @@ client.on("interactionCreate", (interaction) => {
       } else if (btn == "resume") {
         queue.setPaused(false);
       } else if (btn == "lyrics") {
-        i.deferReply({ephemeral: true})
-        i.followUp(sendLyrics(queue.current.title, i));
+        interaction.reply(sendLyrics(queue.current.title));
       } else if (btn == "next") {
         queue.skip();
       } else if (btn == "back") {
