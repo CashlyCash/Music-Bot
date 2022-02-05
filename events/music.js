@@ -3,7 +3,7 @@ const player = require("../music");
 const sendLyrics = require("../functions/lyrics.js");
 const { embs, devbtn } = require("../functions/controls.js");
 
-client.on("interactionCreate", (interaction) => {
+client.on("interactionCreate", async (interaction) => {
   if (interaction.isButton()) {
     const sid = interaction.customId.toString().split(":");
     const id = interaction.customId.toString();
@@ -30,7 +30,8 @@ client.on("interactionCreate", (interaction) => {
       } else if (btn == "resume") {
         queue.setPaused(false);
       } else if (btn == "lyrics") {
-        interaction.reply(sendLyrics(queue.current.title));
+        interaction.deferUpdate({ephemeral: true})
+        interaction.followUp(await sendLyrics(queue.current.title));
       } else if (btn == "next") {
         queue.skip();
       } else if (btn == "back") {

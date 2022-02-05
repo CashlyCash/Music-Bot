@@ -26,12 +26,13 @@ module.exports = async (client) => {
   });
   client.on("interactionCreate", async (interaction) => {
     if (interaction.isCommand()) {
-      await interaction.deferReply({ ephemeral: false }).catch(() => {});
-
       const cmd = client.slashCommands.get(interaction.commandName);
-      if (!cmd)
+      if (!cmd) {
         return interaction.followUp({ content: "An error has occured " });
-
+      } else {
+        if (cmd.ephemeral == true) await interaction.deferReply({ ephemeral: true }).catch(() => {});
+        else await interaction.deferReply({ ephemeral: false }).catch(() => {});
+      }
       const args = [];
 
       for (let option of interaction.options.data) {
