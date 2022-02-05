@@ -1,4 +1,5 @@
 const {Client,Intents, Collection} = require("discord.js");
+const { DiscordTogether } = require('discord-together');
 const token = require('./token.json').token
 
 const client = new Client({
@@ -14,7 +15,7 @@ process.on('unhandledRejection', error => {
 	console.log(error)
 });
 
-
+client.discordTogether = new DiscordTogether(client);
 client.control = new Collection()
 client.commands = new Collection()
 client.aliases = new Collection()

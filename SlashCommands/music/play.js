@@ -64,6 +64,10 @@ module.exports = {
     });
     queue.setRepeatMode(0);
 
+    if (!searchResult.tracks[0]) {
+      return interaction.followUp('No result found :sob:')
+    }
+
     if (!queue.connection)
       await queue.connect(interaction.member.voice.channel);
 

@@ -43,7 +43,7 @@ const hooksend = async (msg, username, avatar, message) => {
 
 client.on("messageCreate", async (message) => {
   if (message.content.includes("Bablu_Bhai.gif")) {
-    message.delete();
+    // message.delete();
   }
   if (message.author.id != "908554250945183744") return;
   if (message.content == "%spank") {

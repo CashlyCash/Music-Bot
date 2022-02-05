@@ -10,7 +10,6 @@ const player = new Player(client, {
   spotifyBridge: false,
 });
 
-module.exports = player;
 
 player.on("trackStart", (queue, track) => {
   queue.metadata.send(
@@ -59,3 +58,5 @@ player.on("channelEmpty", (queue) => {
   queue.clear();
   queue.destroy(true);
 });
+
+module.exports = player;
