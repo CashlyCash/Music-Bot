@@ -1,6 +1,7 @@
 const player = require("../../music");
 
 module.exports = {
+    ephemeral: true,
     name: "queue",
     description: "display the song queue",
     run: async (client, interaction) => {

@@ -1,6 +1,7 @@
 const player = require("../../music");
 const sendLyrics = require('../../functions/lyrics')
 module.exports = {
+    ephemeral: true,
     name: "lyrics",
     description: "display lyrics for the current song or a specific song",
     options: [

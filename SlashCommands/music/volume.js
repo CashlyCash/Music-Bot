@@ -1,6 +1,7 @@
 const player = require("../../music");
 
 module.exports = {
+    ephemeral: true,
     name: "volume",
     description: "change or check the volume of the current song",
     options: [
