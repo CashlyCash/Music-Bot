@@ -17,6 +17,7 @@ const aps = [
 ];
 
 module.exports = {
+  ephemeral: true,
   name: "acitvity",
   description: "Start an activity in a VC",
   options: [
@@ -34,11 +35,11 @@ module.exports = {
     },
   ],
   run: async (client, interaction) => {
-    if (message.member.voice.channel) {
+    if (interaction.member.voice.channel) {
       client.discordTogether
-        .createTogetherCode(message.member.voice.channel.id, interaction.options.get('type').value)
+        .createTogetherCode(interaction.member.voice.channel.id, interaction.options.get('type').value)
         .then(async (invite) => {
-          return message.channel.send(`${invite.code}`);
+          return interaction.followUp(`${invite.code}`);
         });
     } else {
       interaction.followUp("Please join a VC (Voice Channel) first");
