@@ -53,6 +53,8 @@ client.on("interactionCreate", async (interaction) => {
       i.update({
         embeds: embs(i),
         components: devbtn(i),
+      }).catch(e => {
+          return;
       });
     }
   }

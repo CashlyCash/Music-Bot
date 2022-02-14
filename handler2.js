@@ -19,9 +19,36 @@ module.exports = async (client) => {
     });
     client.on("ready", async () => {
         await client.guilds.cache.forEach((g) => {
-            g.commands.set(arrayOfSlashCommands).catch((e) => {
-                return;
-            });
+            g.commands.set(arrayOfSlashCommands).then(cmd => {
+                const getRoles = (commandName) => {
+                    const permissions = arrayOfSlashCommands.find(
+                        (x) => x.name === commandName
+                    )
+                    if (!permissions) return null
+                    return guild.roles.cache.filter(
+                        (x) => x.permissions.has(permissions) && !x.managed
+                    )
+                }
+
+                const fullPermissions = cmd.reduce((accumlator, x) => {
+                    const roles = getRoles(x.name)
+                    if (!roles) return accumlator
+
+                    const permissions = roles.reduce((a, v) => {
+                        return [
+                            ...a,
+                            {
+                                id: v.id,
+                                type: 'ROLE',
+                                permission: true
+                            }
+                        ]
+                    },[])
+                }, [])
+                
+            }).catch((e) => {
+                    return;
+                });
         });
         await client.application.commands.set([]);
     });

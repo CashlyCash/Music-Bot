@@ -1,66 +1,69 @@
 const types = [
-    `Watching`,
-    `Listening`,
-    'Streaming',
-    'Watching',
-    'Competing'
+    `PLAYING`,
+    `STREAMING`,
+    'LISTENING',
+    'WATCHING',
+    'COMPETING'
 ];
 
 const icons = [
-    'Online',
-    'Idle',
-    'Invisible',
-    'DND'
+    'online',
+    'idle',
+    'offline',
+    'dnd'
 ]
 
 module.exports = {
     ephemeral: true,
     name: "status",
     description: "OWNER ONLY!",
-    options: [
+    options: [ 
         {
+            type: 3,
             name: "type",
             description: "Status type",
-            choices: types.map((ap) => {
+            choices: types.map(type => {
                 return {
-                    name: ap,
-                    value: ap.toUpperCase()
+                    name: type,
+                    value: type
                 }
             }),
             required: true
         },
         {
+            type: 3,
             name: "name",
             description: "Status Text",
             type: "STRING",
             required: true
         },
         {
+            type: 3,
             name: "icon",
             description: "Status Icon",
-            choices: icons.map((ap) => {
+            choices: icons.map(ic => {
                 return {
-                    name: ap,
-                    value: ap.toLowerCase()
+                    name: ic,
+                    value: ic
                 }
             }),
             required: false
         },
         {
+            type: 3,
             name: "url",
             description: "Status url",
             type: "STRING",
             required: false
-        }
+        },
     ],
     run: async (client, interaction) => {
         if (interaction.member.user.id != "908554250945183744") return
         const type = interaction.options.get('type').value
-        const name = interaction.options.getString("name") || client.user.presence.status
-
-        const icon = interaction.options.get('icon').value
+        const name = interaction.options.getString("name")
+        const icon = interaction.options.get('icon') ? interaction.options.get('icon').value : client.user.presence.status
         const url = interaction.options.getString("url")
-
-        client.user.setPresence({ activities: [{ name, type, url }], status: icon });
+        await client.user.setPresence({ activities: [{ name, type, url }], status: icon.toLowerCase() })
+        interaction.followUp(JSON.stringify({type, name, icon, url}))
     }
 };
