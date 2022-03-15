@@ -18,7 +18,7 @@ const aps = [
 
 module.exports = {
   ephemeral: true,
-  name: "acitvity",
+  name: "activity",
   description: "Start an activity in a VC",
   options: [
     {

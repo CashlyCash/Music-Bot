@@ -39,24 +39,36 @@ player.on("connectionError", (queue, e) => {
   });
 });
 
-player.on("botDisconnect", (queue) => {
-  const em = new discord.MessageEmbed()
-    .setTitle("PLAYER DESTROYED AS LEFT VC")
-    .setColor("RED");
-  queue.metadata.send({
-    embeds: [em],
-  });
-});
-
-player.on("channelEmpty", (queue) => {
-  const em = new discord.MessageEmbed()
-    .setTitle("PLAYER DESTROYED AS CHANNEL EMPTY")
-    .setColor("RED");
-  queue.metadata.send({
-    embeds: [em],
-  });
-  queue.clear();
-  queue.destroy(true);
+client.on('voiceStateUpdate', (oldState, newState) => {
+  if (oldState.member.id === client.user.id && !newState.channelId) {
+    let guildQueue = player.getQueue(oldState.member.guild.id);
+    if (guildQueue) {
+      guildQueue.destroy();
+      const em = new discord.MessageEmbed()
+        .setTitle("I was disconnected")
+        .setDescription("Someone kicked me from the vc.")
+        .setColor("RED");
+      guildQueue.metadata.send({
+        embeds: [em],
+      });
+    }
+  }/*  else if (
+    newState.member.id != client.user.id && 
+    oldState.member.guild.channels.cache.get(oldState.channel.id).members.size == 1 && 
+    !newState.channelId) {
+    let guildQueue = player.getQueue(oldState.member.guild.id);
+    if (guildQueue) {     
+      if (guildQueue.metadata.id != oldState.channel.id) return
+      const em = new discord.MessageEmbed()
+        .setTitle("Everyone left the VC")
+        .setDescription("There was no one else other than me in the   VC.\nI was lonely :sob: so I left it.")
+        .setColor("RED");
+      guildQueue.metadata.send({
+        embeds: [em],
+      });
+      guildQueue.destroy();
+    }
+  } */
 });
 
 module.exports = player;

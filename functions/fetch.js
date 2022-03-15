@@ -2,13 +2,12 @@ const fetch = require('node-fetch')
 const { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js");
 
 module.exports = async (ip) => {
-  const res = await (
-    await fetch(`https://api.mcsrvstat.us/2/${ip}`)
-  ).json();
+  const re = await fetch(`https://api.mcsrvstat.us/2/${ip}`)
+  const res = await re.json()
   const btn = new MessageActionRow().addComponents(
     new MessageButton()
       .setLabel("REFRESH")
-      .setCustomId("upd")
+      .setCustomId(`upd:${ip}`)
       .setStyle("PRIMARY")
   );
   if (res.online.toString() == "true") {
@@ -21,7 +20,7 @@ module.exports = async (ip) => {
       )
       .addField(
         'Description -',
-        res.motd.clean
+        res.motd.clean ? res.motd.clean.join('\n') : 'NONE'
       )
       .addField(
         "Online Players -",

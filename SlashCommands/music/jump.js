@@ -19,8 +19,8 @@ module.exports = {
             return interaction.followUp({
                 content: "No music is currently being played"
             });
-
-        interaction.jump(no);
+  
+        queue.jump(no);
         interaction.followUp('DONE! Jumped to `' + no + '`')
     }
 };

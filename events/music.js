@@ -56,6 +56,8 @@ client.on("interactionCreate", async (interaction) => {
       }).catch(e => {
           return;
       });
+    } else if (sid[0] == 'upd'){
+      interaction.update(await require('../functions/fetch')(sid[1] + ':' + sid[2]));
     }
   }
 });

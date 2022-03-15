@@ -44,7 +44,7 @@ const createResponse = async (title) => {
   }
 };
 
-const sendLyrics = (songTitle, interaction) => {
+const sendLyrics = (songTitle) => {
   return createResponse(songTitle)
     .then((res) => {
       return res;

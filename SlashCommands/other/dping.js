@@ -4,7 +4,6 @@ const {
   MessageButton
 } = require("discord.js");
 module.exports = {
-  ephemeral: true,
   name: "dping",
   description: "Ping a java minecraft server",
   options: [
