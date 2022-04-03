@@ -16,6 +16,10 @@ module.exports = {
     ],
   run: async (client, interaction) => {
     const ip = await interaction.options.getString("query");
-    interaction.followUp(await require('../../functions/fetch')(ip));
+    if (ip.includes(' ')){
+      return interaction.editReply('The IP contains a SPACE ` ` which will lead to errors in the bot. Please provide a proper IP.');
+    }
+    
+    interaction.editReply(await require('../../functions/fetch')(ip));
   },
 };

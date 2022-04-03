@@ -6,7 +6,7 @@ module.exports = {
   run: async (client, interaction) => {
     const queue = player.getQueue(interaction.guildId);
     if (!queue?.playing)
-      return interaction.followUp({
+      return interaction.editReply({
         content: "No music is currently being played",
       });
 

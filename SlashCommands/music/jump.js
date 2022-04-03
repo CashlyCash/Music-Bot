@@ -16,11 +16,13 @@ module.exports = {
         const no = interaction.options.getInteger("number");
         const queue = player.getQueue(interaction.guildId);
         if (!queue?.playing)
-            return interaction.followUp({
+            return interaction.editReply({
                 content: "No music is currently being played"
             });
   
-        queue.jump(no);
-        interaction.followUp('DONE! Jumped to `' + no + '`')
+        queue.jump(no).catch(() => {
+          interaction.editReply('> Error! please provide a proper number')
+        });
+        interaction.editReply('DONE! Jumped to `' + no + '`')
     }
 };

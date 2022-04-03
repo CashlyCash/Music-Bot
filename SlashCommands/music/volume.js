@@ -16,23 +16,23 @@ module.exports = {
         const volumePercentage = interaction.options.getInteger("percentage");
         const queue = player.getQueue(interaction.guildId);
         if (!queue?.playing)
-            return interaction.followUp({
+            return interaction.editReply({
                 content: "No music is currently being played",
             });
 
         if (!volumePercentage)
-            return interaction.followUp({
+            return interaction.editReply({
                 content: `The current volume is \`${queue.volume}%\``,
             });
 
         if (volumePercentage < 0 || volumePercentage > 100)
-            return interaction.followUp({
+            return interaction.editReply({
                 content: "The volume must be betweeen 1 and 100",
             });
 
         queue.setVolume(volumePercentage);
 
-        return interaction.followUp({
+        return interaction.editReply({
             content: `Volume has been set to \`${volumePercentage}%\``,
         });
     },

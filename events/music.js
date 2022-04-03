@@ -6,22 +6,27 @@ const { embs, devbtn } = require("../functions/controls.js");
 client.on("interactionCreate", async (interaction) => {
   if (interaction.isButton()) {
     const sid = interaction.customId.toString().split(":");
+    const uid = interaction.customId.toString().split(" ");
     const id = interaction.customId.toString();
     if (sid[0] === "m") {
       const i = interaction;
       const queue = player.getQueue(interaction.guildId);
       const btn = i.customId.split(":")[1];
-      if (!queue?.playing) return i.reply({content: "There is no music playing right now", ephemeral: true});
-      if (!interaction.member.voice.channelId) return i.reply({content: "Join a VC first!", ephemeral: true});
+      if (!queue?.playing)
+        return i.reply({
+          content: "There is no music playing right now",
+          ephemeral: true,
+        });
+      if (!interaction.member.voice.channelId)
+        return i.reply({ content: "Join a VC first!", ephemeral: true });
       if (interaction.guild.me.voice.channelId) {
         if (
           interaction.guild.me.voice.channelId !==
           interaction.member.voice.channelId
         ) {
           return interaction.reply({
-            content:
-              "Sorry but you need to be in the same VC in which I am!",
-              ephemeral: true
+            content: "Sorry but you need to be in the same VC in which I am!",
+            ephemeral: true,
           });
         }
       }
@@ -30,12 +35,19 @@ client.on("interactionCreate", async (interaction) => {
       } else if (btn == "resume") {
         queue.setPaused(false);
       } else if (btn == "lyrics") {
-        interaction.deferUpdate({ephemeral: true})
+        interaction.deferUpdate({ ephemeral: true });
         interaction.followUp(await sendLyrics(queue.current.title));
       } else if (btn == "next") {
         queue.skip();
       } else if (btn == "back") {
-        queue.back();
+        try {
+          queue.back(); 
+        } catch(e) {
+          interaction.reply({
+            content: "No previous track found", 
+            ephemeral: true
+          })
+        }
       } else if (btn == "stop") {
         queue.clear();
         queue.destroy(true);
@@ -53,11 +65,34 @@ client.on("interactionCreate", async (interaction) => {
       i.update({
         embeds: embs(i),
         components: devbtn(i),
-      }).catch(e => {
-          return;
+      }).catch((e) => {
+        return;
       });
-    } else if (sid[0] == 'upd'){
-      interaction.update(await require('../functions/fetch')(sid[1] + ':' + sid[2]));
+    } else if (uid[0] == "upd") {
+      interaction.message.edit(
+        await require("../functions/fetch")(uid[1])
+      );
     }
+  } else if (interaction.isCommand()) {
+    const cmd = client.slashCommands.get(interaction.commandName);
+    if (!cmd) {
+      return interaction.reply({ content: "An error has occured " });
+    }
+    const args = [];
+
+    for (let option of interaction.options.data) {
+      if (option.type === "SUB_COMMAND") {
+        if (option.name) args.push(option.name);
+        option.options?.forEach((x) => {
+          if (x.value) args.push(x.value);
+        });
+      } else if (option.value) args.push(option.value);
+    }
+    interaction.member = interaction.guild.members.cache.get(
+      interaction.user.id
+    );
+
+    await interaction.deferReply({ ephemeral: cmd.ephemeral });
+    cmd.run(client, interaction, args);
   }
 });

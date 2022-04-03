@@ -7,7 +7,7 @@ module.exports = {
     run: async (client, interaction) => {
         const queue = player.getQueue(interaction.guildId);
         if (!queue?.playing)
-            return interaction.followUp({
+            return interaction.editReply({
                 content: "No music is currently being played",
                 ephemeral: false
             });
@@ -15,7 +15,7 @@ module.exports = {
         const progress = queue.createProgressBar();
         const perc = queue.getPlayerTimestamp();
 
-        return interaction.followUp({
+        return interaction.editReply({
             embeds: [
                 {
                     title: "Now Playing",
@@ -28,7 +28,7 @@ module.exports = {
                     ],
                     color: 'RED',
                     footer: {
-                        text: `Queued by ${queue.current.requestedBy.tag}`,
+                        text: `Queued by <@!${queue.current.requestedBy.id}>`,
                     },
                 },
             ],

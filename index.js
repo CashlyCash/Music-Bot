@@ -1,6 +1,5 @@
 const {Client,Intents, Collection} = require("discord.js");
 const { DiscordTogether } = require('discord-together');
-const token = require('./token.json').token
 
 const client = new Client({
 	intents: [
@@ -22,9 +21,7 @@ const client = new Client({
     partials: ["CHANNEL"]
 });
 
-process.on('unhandledRejection', error => {
-	console.log(error)
-});
+process.on('unhandledRejection',console.log);
 
 client.discordTogether = new DiscordTogether(client);
 client.control = new Collection()
@@ -36,4 +33,6 @@ require('./handler')(client);
 
 module.exports = client
 
+
+//OTE5MDc5NTAwMTU3OTU2MTg5.YbQlfA.G5rMH4Ej8UCewPw-vFXJT60aOmU
 client.login("OTEyNTM4NDAyODg3NDQ2NTI4.YZxZnQ.rch-6vt6HD-xKq-QW7lBFJS_OMo")

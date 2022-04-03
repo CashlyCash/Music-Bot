@@ -4,20 +4,20 @@ const {
   MessageButton
 } = require("discord.js");
 module.exports = {
-  name: "invite",
-  description: "Get an invite",
+  name: "vote",
+  description: "Vote for Ex-Music",
   run: async (client, interaction) => {
     const emb = new MessageEmbed()
-      .setTitle("Invite the discord bot")
+      .setTitle("Vote for this discord bot")
       .setDescription("This bot was made <t:1643653800:R>")
       .setColor("00FFFF");
 
     const btn = new MessageActionRow()
       .addComponents(
         new MessageButton()
-          .setLabel('Click to invite')
+          .setLabel('Click to vote')
           .setStyle('LINK')
-          .setURL('https://discord.com/oauth2/authorize?client_id=912538402887446528&scope=applications.commands%20bot&permissions=1099511627775')
+          .setURL('https://top.gg/bot/912538402887446528/vote')
       )
     interaction.editReply({ embeds: [emb], components: [btn] });
   },

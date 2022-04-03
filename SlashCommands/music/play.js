@@ -18,7 +18,7 @@ module.exports = {
         const songTitle = interaction.options.getString("query");
 
         if (!interaction.member.voice.channel)
-            return interaction.followUp({
+            return interaction.editReply({
                 content: "Please join a voice channel first!",
             });
 
@@ -27,7 +27,7 @@ module.exports = {
                 interaction.guild.me.voice.channelId !==
                 interaction.member.voice.channelId
             ) {
-                return interaction.followUp({
+                return interaction.editReply({
                     content:
                         "Sorry but the bot is being used in another channel, Ask a moderator or an admin to disconnect the bot from the vc!\nIf you think this an error please inform <@!908554250945183744>",
                 });
@@ -54,7 +54,7 @@ module.exports = {
                         "Other?",
                         "If that was not the case then please DM <@!908554250945183744> about this!"
                     );
-                return interaction.followUp({
+                return interaction.editReply({
                     content: "Error!",
                     embeds: [e],
                 });
@@ -66,7 +66,7 @@ module.exports = {
         queue.setRepeatMode(0);
 
         if (!searchResult.tracks[0]) {
-            return interaction.followUp('No result found :sob:')
+            return interaction.editReply('No result found :sob:')
         }
 
         if (!queue.connection)
@@ -75,7 +75,7 @@ module.exports = {
         const output = searchResult.playlist
             ? `\`\`\`${searchResult.tracks.map((t) => `${t.title}\n`)}\`\`\``
             : `\`\`\`${searchResult.tracks[0].title}\`\`\``;
-        interaction.followUp({ content: `Playing ${output}` });
+        interaction.editReply({ content: `Playing ${output}` });
 
         searchResult.playlist
             ? queue.addTracks(searchResult.tracks)

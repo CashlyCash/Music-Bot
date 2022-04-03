@@ -19,10 +19,10 @@ module.exports = {
 
         const queue = player.getQueue(interaction.guildId);
         if (!queue?.playing)
-            return interaction.followUp({
+            return interaction.editReply({
                 content: "No music is currently being played"
             });
 
-        return interaction.followUp(await sendLyrics(queue.current.title, interaction));
+        return interaction.editReply(await sendLyrics(queue.current.title, interaction));
     }
 };

@@ -64,6 +64,6 @@ module.exports = {
         const icon = interaction.options.get('icon') ? interaction.options.get('icon').value : client.user.presence.status
         const url = interaction.options.getString("url")
         await client.user.setPresence({ activities: [{ name, type, url }], status: icon.toLowerCase() })
-        interaction.followUp(JSON.stringify({type, name, icon, url}))
+        interaction.editReply(JSON.stringify({type, name, icon, url}))
     }
 };

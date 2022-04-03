@@ -43,10 +43,6 @@ client.on("messageCreate", async (message) => {
 
 client.on("messageCreate", async (message) => {
     if (message.channel.type == 'DM') {
-        await client.channels.cache.get('938791126465396809').send({
-            content: `<@!${message.author.id}> => ${message.content}`,
-            files: message.attachments
-        })
         return
     }
     if (message.author.bot) return;

@@ -39,10 +39,10 @@ module.exports = {
       client.discordTogether
         .createTogetherCode(interaction.member.voice.channel.id, interaction.options.get('type').value)
         .then(async (invite) => {
-          return interaction.followUp(`${invite.code}`);
+          return interaction.editReply(`${invite.code}`);
         });
     } else {
-      interaction.followUp("Please join a VC (Voice Channel) first");
+      interaction.editReply("Please join a VC (Voice Channel) first");
     }
   },
 };

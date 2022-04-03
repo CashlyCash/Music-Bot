@@ -2,52 +2,36 @@ const fetch = require('node-fetch')
 const { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js");
 
 module.exports = async (ip) => {
-  const re = await fetch(`https://api.mcsrvstat.us/2/${ip}`)
+  const re = await fetch(`https://mcapi.us/server/status?ip=${ip}`)
   const res = await re.json()
+  var emb = null
   const btn = new MessageActionRow().addComponents(
     new MessageButton()
       .setLabel("REFRESH")
-      .setCustomId(`upd:${ip}`)
+      .setCustomId(`upd ${ip}`)
       .setStyle("PRIMARY")
   );
-  if (res.online.toString() == "true") {
-    const emb = await new MessageEmbed()
-      .setTitle("Server Info")
+  if (res.online) {
+    emb = new MessageEmbed()
+      .setTitle(`Server Info - ${ip}`)
       .setDescription(
-        `**IP : **__${res.ip + `:` + res.port}__\n**VERSION : **__${
-          res.version
-        }__`
-      )
-      .addField(
-        'Description -',
-        res.motd.clean ? res.motd.clean.join('\n') : 'NONE'
+        `\`\`\`${res.motd}\`\`\``
       )
       .addField(
         "Online Players -",
-        `[${res.players.online}/${res.players.max }]\n\`\`\`${res.players.list ? await res.players.list
+        `[${res.players.now}/${res.players.max }]\n\`\`\`${res.players.sample[0] ? await res.players.sample
           .map((p, i) => {
-            return `${i + 1}) ${p}\n`;
-          })
-          .join("") : 'No Online Players'}\`\`\``
-      )
-      .addField(
-        'Protocol -',
-        res.protocol.toString()
-      )
-      .addField(
-        'Debug Info -',
-        `Animated Description - ${res.debug.animatedmotd}
-        Cache time - ${res.debug.cachetime}`
+            return `${i + 1}) ${p.name}\n`;
+          }).join("") : "NO PLAYERS ONLINE\n"}\`\`\``
       )
       .setThumbnail(`https://api.mcsrvstat.us/icon/${ip}`)
+      .addField("Last Updated -",`<t:${res.last_updated}:R>`)
       .setColor("GREEN");
-    return ({ embeds: [emb], components: [btn] });
   } else {
-    const emb = await new MessageEmbed()
-      .setTitle("Server Offline")
-      .setDescription(`**IP : **__${res.ip + `:` + res.port}__`)
-      .setThumbnail(`https://api.mcsrvstat.us/icon/${ip}`)
-      .setColor("RED");
-    return ({ embeds: [emb], components: [btn] });
+    emb = new MessageEmbed()
+      .setTitle(`Server offline - ${ip}`)
+      .setColor("RED")
+      .setDescription(`**Last Updated -**\n<t:${res.last_updated}:R>`)
   }
+  return ({ embeds: [emb], components: [btn] });
 };

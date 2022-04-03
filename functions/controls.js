@@ -21,7 +21,7 @@ const embs = (interaction) => {
     ],
     color: "BLUE",
     footer: {
-      text: `Queued by ${queue.current.requestedBy.tag}`,
+      text: `Queued by <@!${queue.current.requestedBy.id}>`,
     },
   };
 
@@ -40,7 +40,7 @@ const embs = (interaction) => {
     fields: [
       {
         name: "Now Playing",
-        value: `🎶 | [**${currentTrack.title}**](${currentTrack.url}) - ${currentTrack.requestedBy.tag}`,
+        value: `🎶 | [**${currentTrack.title}**](${currentTrack.url}) - <@!${currentTrack.requestedBy.id}>`,
       },
     ],
   };

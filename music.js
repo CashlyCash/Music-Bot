@@ -13,7 +13,7 @@ const player = new Player(client, {
 
 player.on("trackStart", (queue, track) => {
   queue.metadata.send(
-    `🎶 | Now playing **${track.title}** Requested by __${track.requestedBy.tag}__!`
+    `🎶 | Now playing **${track.title}** Requested by __<@!${track.requestedBy.id}>__!`
   );
 });
 
