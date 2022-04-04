@@ -1,6 +1,7 @@
 const { Player } = require("discord-player");
 const client = require("./index.js");
 const discord = require("discord.js");
+require("discord-player/smoothVolume");
 
 const player = new Player(client, {
   ytdlOptions: {
