@@ -34,5 +34,4 @@ require('./handler')(client);
 module.exports = client
 
 
-//OTE5MDc5NTAwMTU3OTU2MTg5.YbQlfA.G5rMH4Ej8UCewPw-vFXJT60aOmU
-client.login("OTEyNTM4NDAyODg3NDQ2NTI4.YZxZnQ.rch-6vt6HD-xKq-QW7lBFJS_OMo")
+client.login("token")
